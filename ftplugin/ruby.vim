@@ -39,3 +39,7 @@ endfunction
 " Commands
 command! -nargs=0 AddFocusTag call s:AddFocusTag()
 command! -nargs=0 RemoveAllFocusTags call s:RemoveAllFocusTags()
+
+" Default binds
+nnoremap <leader>f :AddFocusTag<CR>
+nnoremap <leader>r :RemoveAllFocusTags<CR>
