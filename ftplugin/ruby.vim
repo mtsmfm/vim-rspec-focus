@@ -13,8 +13,23 @@ function! s:Preserve(command)
   let @/ = histget("search", -1)
 endfunction
 
+function! s:AddFocusTagToLine(line_num)
+  let line = getline(a:line_num)
+  let replace_line = substitute(line, ' do$', ', :focus do', '')
+  call setline(a:line_num, replace_line)
+endfunction
+
+function! s:SearchFocusableLine()
+  let example_regexp = '.*\(describe\|context\|it\).* do$'
+  if match(getline('.'), example_regexp) == 0
+    return line('.')
+  else
+    return search(example_regexp, 'b')
+  endif
+endfunction
+
 function! s:AddFocusTag()
-  call s:Preserve("normal! ? do\<cr>C, :focus do\<esc>")
+  call s:AddFocusTagToLine(s:SearchFocusableLine())
 endfunction
 
 function! s:RemoveAllFocusTags()
